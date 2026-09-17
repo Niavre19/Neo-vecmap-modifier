@@ -3019,8 +3019,8 @@ Syntax is edited directly in this single XML editor. Common SVG structure: &lt;s
 </div>
 <div id="vfx-tilt-controls" class="vfx-tilt-controls vfx-hidden">
 <strong style="font-size:.76rem;">Tilt Shift Focus Range</strong>
-<div class="vfx-tilt-axis"><label class="imgcoll-check-row compact"><input id="vfx-tilt-horizontal" type="checkbox" checked><span>H</span></label><div class="vfx-tilt-ranges"><label>Top <input id="vfx-tilt-h-low" type="range" min="0" max="98" value="35" step="1" class="imgcoll-range"></label><label>Bottom <input id="vfx-tilt-h-high" type="range" min="2" max="100" value="65" step="1" class="imgcoll-range"></label></div></div>
-<div class="vfx-tilt-axis"><label class="imgcoll-check-row compact"><input id="vfx-tilt-vertical" type="checkbox"><span>V</span></label><div class="vfx-tilt-ranges"><label>Left <input id="vfx-tilt-v-low" type="range" min="0" max="98" value="35" step="1" class="imgcoll-range"></label><label>Right <input id="vfx-tilt-v-high" type="range" min="2" max="100" value="65" step="1" class="imgcoll-range"></label></div></div>
+<div class="vfx-tilt-axis"><label class="imgcoll-check-row compact"><input id="vfx-tilt-horizontal" type="checkbox" checked><span>H</span></label><div class="vfx-tilt-ranges"><label>Top <input id="vfx-tilt-h-low" type="range" min="0" max="100" value="35" step="1" class="imgcoll-range"></label><label>Bottom <input id="vfx-tilt-h-high" type="range" min="0" max="100" value="35" step="1" class="imgcoll-range"></label></div></div>
+<div class="vfx-tilt-axis"><label class="imgcoll-check-row compact"><input id="vfx-tilt-vertical" type="checkbox"><span>V</span></label><div class="vfx-tilt-ranges"><label>Left <input id="vfx-tilt-v-low" type="range" min="0" max="100" value="35" step="1" class="imgcoll-range"></label><label>Right <input id="vfx-tilt-v-high" type="range" min="0" max="100" value="35" step="1" class="imgcoll-range"></label></div></div>
 </div>
 <div id="vfx-tone-colors-group" class="imgcoll-form-group vfx-hidden">
 <label id="vfx-tone-colors-title" class="box-label">Duotone Colors</label>
@@ -15694,7 +15694,7 @@ grain: document.getElementById('vfx-grain-value')
 };
 
 function defaultVisualEffectsSettings(){
-return { preset:'none', intensity:100, overlayEnabled:false, overlayColor:'#FF7A00', overlayOpacity:35, overlayBlend:'multiply', suffixEnabled:false, batchName:'visualfx', colorA:'#0b1f4d', colorB:'#86d7da', colorC:'#f6e8b1', exposure:0, brightness:0, contrast:0, saturation:0, vibrance:0, highlights:0, shadows:0, warmth:0, tint:0, noise:0, grain:0, tiltHorizontal:true, tiltVertical:false, tiltHLow:35, tiltHHigh:65, tiltVLow:35, tiltVHigh:65 };
+return { preset:'none', intensity:100, overlayEnabled:false, overlayColor:'#FF7A00', overlayOpacity:35, overlayBlend:'multiply', suffixEnabled:false, batchName:'visualfx', colorA:'#0b1f4d', colorB:'#86d7da', colorC:'#f6e8b1', exposure:0, brightness:0, contrast:0, saturation:0, vibrance:0, highlights:0, shadows:0, warmth:0, tint:0, noise:0, grain:0, tiltHorizontal:true, tiltVertical:false, tiltHLow:35, tiltHHigh:35, tiltVLow:35, tiltVHigh:35 };
 }
 let visualEffectsSettings = defaultVisualEffectsSettings();
 function clampVisualEffects(value,min,max){ return Math.max(min, Math.min(max, value)); }
@@ -15784,8 +15784,8 @@ overlayBlend: visualEffectsControls.overlayBlend?.value || 'source-over',
 suffixEnabled: Boolean(visualEffectsControls.suffixEnabled?.checked),
 batchName: (visualEffectsControls.batchName?.value || 'visualfx').trim() || 'visualfx',
 tiltHorizontal: Boolean(visualEffectsControls.tiltHorizontal?.checked), tiltVertical: Boolean(visualEffectsControls.tiltVertical?.checked),
-tiltHLow: Number(visualEffectsControls.tiltHLow?.value || 35), tiltHHigh: Number(visualEffectsControls.tiltHHigh?.value || 65),
-tiltVLow: Number(visualEffectsControls.tiltVLow?.value || 35), tiltVHigh: Number(visualEffectsControls.tiltVHigh?.value || 65),
+tiltHLow: Number(visualEffectsControls.tiltHLow?.value || 35), tiltHHigh: Number(visualEffectsControls.tiltHHigh?.value || 35),
+tiltVLow: Number(visualEffectsControls.tiltVLow?.value || 35), tiltVHigh: Number(visualEffectsControls.tiltVHigh?.value || 35),
 colorA: visualEffectsControls.colorA?.value || '#0b1f4d',
 colorB: visualEffectsControls.colorB?.value || '#86d7da',
 colorC: visualEffectsControls.colorC?.value || '#f6e8b1',
@@ -16223,7 +16223,7 @@ const hOn=Boolean(settings.tiltHorizontal),vOn=Boolean(settings.tiltVertical);if
 const src=document.createElement('canvas');src.width=width;src.height=height;src.getContext('2d').drawImage(ctx.canvas,0,0);
 const blurred=document.createElement('canvas');blurred.width=width;blurred.height=height;const bctx=blurred.getContext('2d');bctx.filter=`blur(${Math.max(3,Math.round(Math.min(width,height)*.022))}px)`;bctx.drawImage(src,0,0);
 const base=ctx.getImageData(0,0,width,height),blur=bctx.getImageData(0,0,width,height),d=base.data,bd=blur.data;
-const hl=clampVisualEffects(Number(settings.tiltHLow??35)/100,0,.98),hh=clampVisualEffects(Number(settings.tiltHHigh??65)/100,.02,1),vl=clampVisualEffects(Number(settings.tiltVLow??35)/100,0,.98),vh=clampVisualEffects(Number(settings.tiltVHigh??65)/100,.02,1),mix=clampVisualEffects(Number(settings.intensity??100)/100,0,1);
+const hl=clampVisualEffects(Number(settings.tiltHLow??35)/100,0,.98),hh=1-clampVisualEffects(Number(settings.tiltHHigh??35)/100,0,.98),vl=clampVisualEffects(Number(settings.tiltVLow??35)/100,0,.98),vh=1-clampVisualEffects(Number(settings.tiltVHigh??35)/100,0,.98),mix=clampVisualEffects(Number(settings.intensity??100)/100,0,1);
 const hFeather=Math.max(.055,Math.min(.22,Math.max(.08,(hh-hl)*.58))),vFeather=Math.max(.055,Math.min(.22,Math.max(.08,(vh-vl)*.58)));const smooth=t=>{t=clampVisualEffects(t,0,1);return t*t*(3-2*t);};
 for(let y=0;y<height;y++)for(let x=0;x<width;x++){const ny=y/Math.max(1,height-1),nx=x/Math.max(1,width-1);let hw=0,vw=0;if(hOn){if(ny<hl)hw=smooth((hl-ny)/hFeather);else if(ny>hh)hw=smooth((ny-hh)/hFeather);}if(vOn){if(nx<vl)vw=smooth((vl-nx)/vFeather);else if(nx>vh)vw=smooth((nx-vh)/vFeather);}const weight=(1-(1-hw)*(1-vw))*mix;if(weight<=.0001)continue;const i=(y*width+x)*4;d[i]=lerpVisualEffects(d[i],bd[i],weight);d[i+1]=lerpVisualEffects(d[i+1],bd[i+1],weight);d[i+2]=lerpVisualEffects(d[i+2],bd[i+2],weight);}
 ctx.putImageData(base,0,0);
